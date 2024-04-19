@@ -1,0 +1,97 @@
+groups:
+      - name: Alerts
+        rules:
+        - alert: CassandraNodeDown_#008
+          expr: cassandra_up{job="cassandra"} == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "Cassandra node is down"
+            description: "The Cassandra node has been down for more than 5 minutes."
+    #           Alert ID: 008
+            Runbook: https://comprinno-tech.atlassian.net/wiki/spaces/M/pages/239173633/PlayBook+for+Alerts+Remediation.
+            Dashboard: http://prod-observability-setup-alb-293063014.eu-west-1.elb.amazonaws.com/d/g7j0xhjZk/consul-exporter-dashboard?orgId=1&refresh=30s
+
+
+        - alert: CassandraHighLatency
+          expr: cassandra_read_latency_seconds{job="cassandra"} > 0.5 or cassandra_write_latency_seconds{job="cassandra"} > 0.5
+          for: 1m
+          labels:
+            severity: high
+          annotations:
+            summary: "High Cassandra latency"
+            description: "The read or write latency in Cassandra is above the threshold of 0.5 seconds."
+        #       Alert ID: -!-
+            Runbook: https://comprinno-tech.atlassian.net/wiki/spaces/M/pages/239173633/PlayBook+for+Alerts+Remediation.
+            Dashboard: http://prod-observability-setup-alb-293063014.eu-west-1.elb.amazonaws.com/d/9IFafKA4z/jmx-dashboard-basic?orgId=1&refresh=1m
+
+        - alert: CassandraDiskSpaceLow
+          expr: (cassandra_disk_used_bytes{job="cassandra"} / cassandra_disk_total_bytes{job="cassandra"}) * 100 > 80
+          for: 5m
+          labels:
+            severity: medium
+          annotations:
+            summary: "Low Cassandra disk space"
+            description: "The disk space usage in Cassandra is above 80%."
+            #   Alert_ID: "011"
+            Runbook: https://comprinno-tech.atlassian.net/wiki/spaces/M/pages/239173633/PlayBook+for+Alerts+Remediation.
+            Dashboard: http://prod-observability-setup-alb-293063014.eu-west-1.elb.amazonaws.com/d/9IFafKA4z/jmx-dashboard-basic?orgId=1&refresh=1m
+
+        - alert: CassandraReadErrors
+          expr: cassandra_read_errors_total{job="cassandra"} > 0
+          for: 1m
+          labels:
+            severity: high
+          annotations:
+            summary: "Cassandra read errors"
+            description: "There are read errors occurring in Cassandra."
+            Runbook: https://tinyurl.com/3dzpa3fy
+            Dashboard: https://tinyurl.com/j6hmzyrp
+
+        - alert: CassandraWriteErrors
+          expr: cassandra_write_errors_total{job="cassandra"} > 0
+          for: 1m
+          labels:
+            severity: high
+          annotations:
+            summary: "Cassandra write errors"
+            description: "There are write errors occurring in Cassandra."
+            Runbook: https://tinyurl.com/3dzpa3fy
+            Dashboard: https://tinyurl.com/j6hmzyrp
+
+
+        - alert: CassandraHighDroppedMessages
+          expr: rate(cassandra_DroppedMessages_total[5m]) > 100
+          for: 5m
+          labels:
+            severity: low
+          annotations:
+            summary: "High dropped messages in Cassandra"
+            description: "The total number of dropped messages in Cassandra is above 100."
+            Runbook: https://tinyurl.com/3dzpa3fy
+            Dashboard: https://tinyurl.com/j6hmzyrp
+
+        - alert: CassandraHighHeapMemoryUsage_#14
+          expr: (jvm_memory_bytes_used{area="heap"} / jvm_memory_bytes_max{area="heap"}) * 100 > 80
+          for: 5m
+          labels:
+            severity: low
+          annotations:
+            summary: "High heap memory usage in Cassandra"
+            description: "The heap memory usage in Cassandra is above 80%."
+            Alert_ID: "014"
+            Runbook: https://comprinno-tech.atlassian.net/wiki/spaces/M/pages/239173633/PlayBook+for+Alerts+Remediation.
+            Dashboard: http://prod-observability-setup-alb-293063014.eu-west-1.elb.amazonaws.com/d/9IFafKA4z/jmx-dashboard-basic?orgId=1&refresh=1m
+
+        - alert: CassandraHighNonHeapMemoryUsage
+          expr: (jvm_memory_bytes_used{area="nonheap"} / jvm_memory_bytes_max{area="nonheap"}) * 100 > 80
+          for: 1m
+          labels:
+            severity: low
+          annotations:
+            Alert_ID: "013"
+            summary: "High non-heap memory usage in Cassandra"
+            description: "The non-heap memory usage in Cassandra is above 80%."
+            Runbook: https://tinyurl.com/3dzpa3fy
+            Dashboard: https://tinyurl.com/j6hmzyrp

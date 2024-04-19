@@ -1,0 +1,127 @@
+# alertmanager.yml
+
+route:
+  # When a new group of alerts is created by an incoming alert, wait at
+  # least 'group_wait' to send the initial notification.
+  # This way ensures that you get multiple alerts for the same group that start
+  # firing shortly after another are batched together on the first
+  # notification.
+  group_wait: 10s
+  group_by: ['...']
+  # When the first notification was sent, wait 'group_interval' to send a batch
+  # of new alerts that started firing for that group.
+  group_interval: 30s
+
+  # If an alert has successfully been sent, wait 'repeat_interval' to
+  # resend them.
+  repeat_interval: 30m
+
+  # A default receiver
+  receiver: "hivepro-pager-critical"
+
+  # All the above attributes are inherited by all child routes and can
+  # overwritten on each.
+  routes:
+  - receiver: "hivepro-pager-critical"
+    group_wait: 10s
+    match_re:
+      severity: "critical|Critical"
+      client: "hivepro|hivecloud"
+    continue: true
+  - receiver: "xposure-pager-critical"
+    group_wait: 10s
+    match_re:
+      severity: "critical|Critical"
+      client: "xposure"
+    continue: true
+  - receiver: "hivepro-pager-high"
+    group_wait: 10s
+    match_re:
+      severity: "high|High"
+      client: "hivepro|hivecloud"
+    continue: true
+  - receiver: "xposure-pager-high"
+    group_wait: 10s
+    match_re:
+      severity: "high|High"
+      client: "xposure"
+    continue: true
+  - receiver: "hivepro-pager-medium"
+    group_wait: 10s
+    match_re:
+      severity: "medium|Medium"
+      client: "hivepro|hivecloud"
+    continue: true
+  - receiver: "xposure-pager-medium"
+    group_wait: 10s
+    match_re:
+      severity: "medium|Medium"
+      client: "xposure"
+    continue: true
+  - receiver: "hivepro-pager-low"
+    group_wait: 10s
+    match_re:
+      severity: "low|Low"
+      client: "hivepro|hivecloud"
+    continue: true
+  - receiver: "xposure-pager-low"
+    group_wait: 10s
+    match_re:
+      severity: "low|Low"
+      client: "xposure"
+    continue: true
+  - receiver: "hivepro-pager-Warning"
+    group_wait: 10s
+    match_re:
+      severity: "Warning|warning"
+      client: "hivepro|hivecloud"
+    continue: true
+  - receiver: "xposure-pager-Warning"
+    group_wait: 10s
+    match_re:
+      severity: "Warning|warning"
+      client: "xposure"
+    continue: true
+
+
+receivers:
+  - name: "hivepro-pager-critical"
+    pagerduty_configs:
+      - service_key: ec4150f06d804107c0798209867e7a5a
+        send_resolved: true
+  - name: "xposure-pager-critical"
+    pagerduty_configs:
+      - service_key: d3dc507c94c04c0cc0243af00843c2bc
+        send_resolved: true
+  - name: "hivepro-pager-high"
+    pagerduty_configs:
+      - service_key: 454ac7fd4327480dc0d22918cb0955fc
+        send_resolved: true
+  - name: "xposure-pager-high"
+    pagerduty_configs:
+      - service_key: 48cbf042b708470dc0fc43587ca443a9
+        send_resolved: true
+  - name: "hivepro-pager-medium"
+    pagerduty_configs:
+      - service_key: 1eff4ac9f9b34c00c0b711247a189113
+        send_resolved: true
+  - name: "xposure-pager-medium"
+    pagerduty_configs:
+      - service_key: 4f0cf4e8829f4f09d05b5dab9855f1f7
+        send_resolved: true
+  - name: "hivepro-pager-low"
+    pagerduty_configs:
+      - service_key: 0ecccd68adbc4f08d0d50df740d6058b
+        send_resolved: true
+  - name: "xposure-pager-low"
+    pagerduty_configs:
+      - service_key: f0f1d530bb334e0fd0078c504ae0bab6
+        send_resolved: true
+  - name: "hivepro-pager-Warning"
+    pagerduty_configs:
+      - service_key: 822063fac89e4b0dc0bd1fac9bb71871
+        send_resolved: true
+  - name: "xposure-pager-Warning"
+    pagerduty_configs:
+      - service_key: e70e102cd8334b03d0fd8c619429a8d3
+        send_resolved: true
