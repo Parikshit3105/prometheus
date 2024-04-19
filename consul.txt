@@ -1,0 +1,62 @@
+groups:
+      - name: Alerts
+        rules:
+        - alert: Elasticsearch Cluster Down
+          expr: elasticsearch_clusterinfo_up == 0
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+         #      Alert ID: _041
+            description: Elasticsearch cluster information endpoint is not available. Check the cluster connectivity for more details. VALUE = {{ $value }} LABELS = {{ $labels }}
+            summary: Elasticsearch cluster information not available
+            Runbook: https://tinyurl.com/5n8b8brp
+            Dashboard: https://tinyurl.com/mvnyba3s
+
+        - alert: Elasticsearch Index Not Available status RED
+          expr: elasticsearch_cluster_health_status{color="red"} == 1
+          for: 0m
+          labels:
+            severity: critical
+          annotations:
+             #  Alert ID: _042
+            description: Elasticsearch index is not available. Check the cluster health for more details. VALUE = {{ $value }} LABELS = {{ $labels }}
+            summary: Elasticsearch index not available
+            Runbook: https://tinyurl.com/5n8b8brp
+            Dashboard: https://tinyurl.com/mvnyba3s
+
+
+        - alert: Elasticsearch Index status Yellow
+          expr: elasticsearch_cluster_health_status{color="yellow"} == 1
+          for: 5m
+          labels:
+            severity: high
+          annotations:
+              # Alert ID: _043
+            description: Elasticsearch index is in a yellow state. Check the cluster health for more details. VALUE = {{ $value }} LABELS = {{ $labels }}
+            summary: Elasticsearch index in yellow state
+            Runbook: https://tinyurl.com/5n8b8brp
+            Dashboard: https://tinyurl.com/mvnyba3s
+
+        - alert: Elasticsearch Delayed Unassigned Shards
+          expr: elasticsearch_cluster_health_delayed_unassigned_shards > 0
+          for: 10m
+          labels:
+            severity: high
+          annotations:
+             #  Alert ID: _044
+            description: Elasticsearch has delayed unassigned shards. Check the cluster status for more details. VALUE = {{ $value }} LABELS = {{ $labels }}
+            summary: Elasticsearch has delayed unassigned shards
+            Runbook: https://tinyurl.com/5n8b8brp
+            Dashboard: https://tinyurl.com/mvnyba3s
+
+        - alert: Elasticsearch Tasks Pending
+          expr: elasticsearch_cluster_health_number_of_pending_tasks > 0
+          for: 10m
+          labels:
+            severity: medium
+          annotations:
+            description: Elasticsearch has pending tasks. Check the cluster status for more details. VALUE = {{ $value }} LABELS = {{ $labels }}
+            summary: Elasticsearch has pending tasks
+            Runbook: https://tinyurl.com/5n8b8brp
+            Dashboard: https://tinyurl.com/mvnyba3s

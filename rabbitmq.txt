@@ -1,0 +1,141 @@
+groups:
+      - name: Alerts
+        rules:
+        - alert: RabbitMQNodeDown
+          expr: rabbitmq_up == 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "RabbitMQ node down"
+            description: "RabbitMQ node {{ $labels.instance }} is down."
+            Runbook: https://shorturl.at/adyVX
+            Dashboard: https://shorturl.at/sJVWZ
+
+        - alert: RabbitMQClusterDown
+          expr: sum(rabbitmq_running) < 1
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            #  Alert ID: _051
+            summary: "RabbitMQ cluster down"
+            description: "Less than 3 nodes running in RabbitMQ cluster."
+            Runbook: https://shorturl.at/adyVX
+            Dashboard: https://shorturl.at/sJVWZ
+
+        - alert: RabbitMQClusterPartition
+          expr: rabbitmq_partitions > 0
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "RabbitMQ cluster partition"
+            description: "RabbitMQ cluster has partitions."
+            Runbook: https://shorturl.at/adyVX
+            Dashboard: https://shorturl.at/sJVWZ
+
+        - alert: RabbitMQOutOfMemory
+          expr: rabbitmq_node_mem_used / rabbitmq_node_mem_limit * 100 > 80
+          for: 5m
+          labels:
+            severity: high
+          annotations:
+            summary: "RabbitMQ out of memory"
+            description: "Memory available for RabbitMQ on node {{ $labels.instance }} is low (< 15%)."
+            Runbook: https://shorturl.at/adyVX
+            Dashboard: https://shorturl.at/sJVWZ
+
+        - alert: RabbitMQTooManyConnections
+          expr: rabbitmq_connections > 1300
+          for: 5m
+          labels:
+            severity: medium
+          annotations:
+            summary: "RabbitMQ too many connections"
+            description: "RabbitMQ instance {{ $labels.instance }} has too many connections (> 1300)."
+            Runbook: https://shorturl.at/adyVX
+            Dashboard: https://shorturl.at/sJVWZ
+
+        - alert: RabbitMQDeadLetterQueueFillingUp
+          expr: rabbitmq_queue_messages{queue="my-dead-letter-queue"} > 10
+          for: 1m
+          labels:
+            severity: medium
+          annotations:
+            summary: "RabbitMQ dead letter queue filling up"
+            description: "Dead letter queue is filling up (> 10 messages). Queue name: my-dead-letter-queue."
+            Runbook: https://shorturl.at/adyVX
+            Dashboard: https://shorturl.at/sJVWZ
+
+        - alert: RabbitMQTooManyMessagesInQueue
+          expr: rabbitmq_queue_messages_ready{queue="my-queue"} > 1000
+          for: 2m
+          labels:
+            severity: medium
+          annotations:
+            summary: "RabbitMQ too many messages in queue"
+            description: "Queue is filling up (> 1000 messages). Queue name: my-queue."
+            Runbook: https://shorturl.at/adyVX
+            Dashboard: https://shorturl.at/sJVWZ
+
+        - alert: RabbitMQSlowQueueConsuming
+          expr: time() - rabbitmq_queue_head_message_timestamp{queue="my-queue"} > 60
+          for: 2m
+          labels:
+            severity: low
+          annotations:
+            summary: "RabbitMQ slow queue consuming"
+            description: "Queue messages are consumed slowly (> 60 seconds). Queue name: my-queue."
+            Runbook: https://shorturl.at/adyVX
+            Dashboard: https://shorturl.at/sJVWZ
+
+        - alert: RabbitMQTooManyConsumers
+          expr: rabbitmq_queue_consumers{queue="my-queue"} > 1
+          for: 1m
+          labels:
+            severity: critical
+          annotations:
+            summary: "RabbitMQ too many consumers"
+            description: "Queue should have only 1 consumer. Queue name: my-queue."
+            Runbook: https://shorturl.at/adyVX
+            Dashboard: https://shorturl.at/sJVWZ
+
+        - alert: RabbitMQUnactiveExchange
+          expr: rate(rabbitmq_exchange_messages_published_in_total{exchange="my-exchange"}[1m]) < 5
+          for: 2m
+          labels:
+            severity: low
+          annotations:
+            summary: "RabbitMQ unactive exchange"
+            description: "Exchange receives less than 5 messages per second. Exchange name: my-exchange."
+            Runbook: https://shorturl.at/adyVX
+            Dashboard: https://shorturl.at/sJVWZ
+
+        - alert: RabbitMQHighFileDescriptors
+          expr: rabbitmq_node_file_descriptors{fd_type="total"} > 8000
+          for: 5m
+          labels:
+            severity: low
+          annotations:
+            summary: "High number of file descriptors in RabbitMQ"
+            description: "The RabbitMQ node {{ $labels.instance }} has a high number of file descriptors (> 8000)."
+            Runbook: https://shorturl.at/adyVX
+            Dashboard: https://shorturl.at/sJVWZ
+        - alert: RabbitMQQueueSizeMoreThan_10K_Alert
+          expr: rabbitmq_queue_messages > 10000
+          for: 1m  # Trigger the alert if the condition persists for 5 minutes
+          labels:
+            severity: critical
+          annotations:
+            summary: "RabbitMQ queue {{ $labels.queue }} has more than 10000 messages"
+            description: "The queue {{ $labels.queue }} in RabbitMQ has exceeded 10000 messages."
+
+        - alert: RabbitMQQueueSizeMoreThan_1000_Alert
+          expr: rabbitmq_queue_messages > 1000
+          for: 1m  # Trigger the alert if the condition persists for 5 minutes
+          labels:
+            severity: low
+          annotations:
+            summary: "RabbitMQ queue {{ $labels.queue }} has more than 1000 messages"
+            description: "The queue {{ $labels.queue }} in RabbitMQ has exceeded 1000 messages."

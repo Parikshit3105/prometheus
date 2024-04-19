@@ -1,0 +1,398 @@
+  global:
+    scrape_interval: 15s
+
+  rule_files:
+    - HiveproKubeStateAlertsDev.yml
+    - HiveproKubeStateAlertsProd.yml
+    - HiveproNodeExporterAlertsDev.yml
+    - XposureNodeExporterAlertsDev.yml
+    - HiveproNodeExporterAlertsProd.yml
+    - XposureNodeExporterAlertsProd.yml
+    - HiveproBlackboxAlertsDev.yml
+    - HiveproBlackboxAlertsProd.yml
+    - XposureBlackboxAlertsDev.yml
+    - NLB_uni5.yml
+    - XposureBlackboxAlertsProd.yml
+
+  alerting:
+    alertmanagers:
+      - static_configs:
+          - targets:              - localhost:9093
+
+  scrape_configs:
+    - job_name: 'node-exporter-hivecloud-prod'
+      ec2_sd_configs:
+        - region: us-east-1
+          role_arn: arn:aws:iam::934743933529:role/prometheus
+          port: 9100
+          filters:
+            - name: tag:node-exporter
+              values:
+                - true
+            - name: tag:environment
+              values:
+                - prod
+            - name: tag:project
+              values:
+                - hivepro
+      relabel_configs:
+        - source_labels: [__meta_ec2_tag_Name]
+          target_label: instance
+        - regex: "__meta_ec2_tag_(.+)"
+          action: labelmap
+
+    - job_name: 'node-exporter-hivecloud-dev'
+      ec2_sd_configs:
+        - region: us-east-1
+          port: 9100
+          role_arn: arn:aws:iam::934743933529:role/prometheus
+          filters:
+            - name: tag:node-exporter
+              values:
+                - true
+            - name: tag:environment
+              values:
+                - dev
+            - name: tag:project
+              values:
+                - hivepro
+      relabel_configs:
+        - source_labels: [__meta_ec2_tag_Name]
+          target_label: instance
+        - regex: "__meta_ec2_tag_(.+)"
+          action: labelmap
+
+    - job_name: 'node-exporter-Xposure-dev'
+      ec2_sd_configs:
+        - region: us-west-2
+          port: 9100
+          role_arn: arn:aws:iam::098915869641:role/prometheus
+          filters:
+            - name: tag:node-exporter
+              values:
+                - true
+            - name: tag:environment
+              values:
+                - dev
+            - name: tag:client
+              values:
+                - xposure
+      relabel_configs:
+        - source_labels: [__meta_ec2_tag_Name]
+          target_label: instance
+        - regex: "__meta_ec2_tag_(.+)"
+          action: labelmap
+
+    - job_name: 'node-exporter-Xposure-prod'
+      ec2_sd_configs:
+        - region: us-west-2
+          port: 9100
+          role_arn: arn:aws:iam::098915869641:role/prometheus
+          filters:
+            - name: tag:node-exporter
+              values:
+                - true
+            - name: tag:environment
+              values:
+                - prod
+            - name: tag:client
+              values:
+                - xposure
+      relabel_configs:
+        - source_labels: [__meta_ec2_tag_Name]
+          target_label: instance
+        - regex: "__meta_ec2_tag_(.+)"
+          action: labelmap
+
+    - job_name: 'prometheus-centralised-monitoring-server'
+      scrape_interval: 15s
+      static_configs:
+        - targets: ['localhost:9090']
+      relabel_configs:
+        - source_labels: [__meta_ec2_tag_Name]
+          target_label: instance
+        - source_labels: [__meta_ec2_tag_environment]
+          target_label: environment
+        - source_labels: [__meta_ec2_tag_client]
+          target_label: client
+          replacement: "hivepro"
+
+    - job_name: 'node_exporter-centralised-monitoring-server'
+      scrape_interval: 15s
+      static_configs:
+        - targets: ['localhost:9100']
+      relabel_configs:
+        - source_labels: [__meta_ec2_tag_Name]
+          target_label: instance
+        - source_labels: [__meta_ec2_tag_environment]
+          target_label: environment
+        - source_labels: [__meta_ec2_tag_client]
+          target_label: client
+          replacement: "hivepro"
+
+    - job_name: 'alertmanager-centralised-monitoring-server'
+      static_configs:
+        - targets: ['localhost:9093']
+      relabel_configs:
+        - source_labels: [__meta_ec2_tag_Name]
+          target_label: instance
+        - source_labels: [__meta_ec2_tag_environment]
+          target_label: environment
+        - source_labels: [__meta_ec2_tag_client]
+          target_label: client
+          replacement: "hivepro"
+
+
+    - job_name: 'Prometheus-DIR-Monitoring'
+      ec2_sd_configs:
+       - region: us-east-1
+         port: 9974
+      relabel_configs:
+      - source_labels: [__meta_ec2_tag_PrometheusFolderEnabled]
+        regex: True
+        action: keep
+      - source_labels: [__meta_ec2_tag_Name]
+        target_label: instance
+
+    - job_name: 'secure_apis_prod'
+      metrics_path: /probe
+      params:
+        module: [http_2xx_auth]
+      static_configs:
+        - targets:
+            - https://apicloud.hivepro.com/actuator/health
+      relabel_configs:
+        - source_labels: [__address__]
+          target_label: __param_target
+        - source_labels: [__param_target]
+          target_label: instance
+        - target_label: __address__
+          replacement: localhost:9115
+        - source_labels: [__address__]
+          target_label: "environment"
+          replacement: "prod"
+        - source_labels: [__meta_ec2_tag_client]
+          target_label: client
+          replacement: "hivepro"
+        - source_labels: [__meta_ec2_tag_environment]
+          target_label: environment
+          replacement: "prod"
+
+    - job_name: 'secure_apis_prod_with_header'
+      metrics_path: /probe
+      params:
+        module: [http_2xx_us1]
+      static_configs:
+        - targets:
+            - https://us1.hivepro.cloud/actuator/health
+      relabel_configs:
+        - source_labels: [__address__]
+          target_label: __param_target
+        - source_labels: [__param_target]
+          target_label: instance
+        - target_label: __address__
+          replacement: localhost:9115
+        - source_labels: [__address__]
+          target_label: "environment"
+          replacement: "prod"
+        - source_labels: [__meta_ec2_tag_client]
+          target_label: client
+          replacement: "hivepro"
+        - source_labels: [__meta_ec2_tag_environment]
+          target_label: environment
+          replacement: "prod"
+
+    - job_name: 'open_apis_dev'
+      metrics_path: /probe
+      params:
+        module: [http_2xx]
+      static_configs:
+        - targets:
+      relabel_configs:
+        - source_labels: [__address__]
+          target_label: __param_target
+        - source_labels: [__param_target]
+          target_label: instance
+        - target_label: __address__
+          replacement: localhost:9115
+        - source_labels: [__address__]
+          target_label: "environment"
+          replacement: "dev"
+        - source_labels: [__meta_ec2_tag_client]
+          target_label: client
+          replacement: "hivepro"
+        - source_labels: [__meta_ec2_tag_environment]
+          target_label: environment
+          replacement: "dev"
+
+    - job_name: 'secure_apis_dev'
+      metrics_path: /probe
+      params:
+        module: [http_2xx_auth]
+      static_configs:
+        - targets:
+            - https://hivecloud-api-staging1.dev.hivepro.com/actuator/health
+            - https://hivecloud-api-dev1.dev.hivepro.com/actuator/health
+      relabel_configs:
+        - source_labels: [__address__]
+          target_label: __param_target
+        - source_labels: [__param_target]
+          target_label: instance
+        - target_label: __address__
+          replacement: localhost:9115
+        - source_labels: [__address__]
+          target_label: "environment"
+          replacement: "dev"
+        - source_labels: [__meta_ec2_tag_client]
+          target_label: client
+          replacement: "hivepro"
+        - source_labels: [__meta_ec2_tag_environment]
+          target_label: environment
+          replacement: "dev"
+
+    - job_name: 'Monitoring-server'
+      ec2_sd_configs:
+        - region: us-east-1
+          port: 9100
+        - region: us-east-1
+          port: 9323
+      relabel_configs:
+        - source_labels: [__meta_ec2_tag_PrometheusEnabled]
+          regex: True
+          action: keep
+        - source_labels: [__meta_ec2_tag_Name,__meta_ec2_private_ip]
+          target_label: instance
+        - source_labels: [__meta_ec2_tag_client]
+          target_label: client
+          replacement: "hivepro"
+        - source_labels: [__meta_ec2_tag_environment]
+          target_label: environment
+          replacement: "prod"
+
+    - job_name: 'federate'
+      honor_labels: true
+      honor_timestamps: true
+      params:
+        match[]:
+          - '{job="prometheus"}'
+          - '{job="kubernetes-apiservers"}'
+          - '{job="kubennetes-nodes"}'
+          - '{job="kubernetes-nodes-cadvisor"}'
+          - '{job="kubernetes-service-endpoints"}'
+          - '{job="kubernetes-service-endpoints-slow"}'
+          - '{job="prometheus-pushgateway"}'
+          - '{job="kubernetes-services"}'
+          - '{job="kubernetes-pods"}'
+          - '{job="kubernetes-pods-slow"}'
+          - '{__name__=~"job:.*"}'
+      scrape_interval: 5s
+      scrape_timeout: 5s
+      metrics_path: /federate
+      scheme: https
+      follow_redirects: true
+      enable_http2: true
+      static_configs:
+        - targets:
+            - prometheus.k8s-1-int.dev.hivepro.com
+          labels:
+            cluster: uni5saasstage1
+            environment: dev
+            client: "hivepro"
+        - targets:
+            - prometheus.us1-int.hivepro.cloud
+          labels:
+            cluster: uni5saasus1
+            environment: prod
+            client: "hivepro"
+
+    - job_name: 'xposure-website'
+      scrape_interval: 1m
+      metrics_path: /probe
+      params:
+        module: [http_2xx]
+      follow_redirects: true
+      static_configs:
+        - targets:
+          - https://artemis.hivepro.com
+      relabel_configs:
+        - source_labels: [__address__]
+          target_label: __param_target
+        - source_labels: [__param_target]
+          target_label: instance
+        - target_label: __address__
+          replacement: localhost:9115
+        - source_labels: [__meta_ec2_tag_client]
+          target_label: client
+          replacement: "xposure"
+        - source_labels: [__meta_ec2_tag_environment]
+          target_label: environment
+          replacement: "prod"
+
+    - job_name: 'xposure-api'
+      scrape_interval: 1m
+      metrics_path: /probe
+      params:
+        module: [http_2xx_to_403]
+      follow_redirects: true
+      static_configs:
+        - targets:
+          - https://artemis-api.hivepro.com/pentest/v1/org-wpt/get
+      relabel_configs:
+        - source_labels: [__address__]
+          target_label: __param_target
+        - source_labels: [__param_target]
+          target_label: instance
+        - target_label: __address__
+          replacement: localhost:9115
+        - source_labels: [__meta_ec2_tag_client]
+          target_label: client
+          replacement: "xposure"
+        - source_labels: [__meta_ec2_tag_environment]
+          target_label: environment
+          replacement: "prod"
+
+    - job_name: 'xposure-test-api'
+      scrape_interval: 1m
+      metrics_path: /probe
+      params:
+        module: [http_2xx]
+      follow_redirects: true
+      static_configs:
+        - targets:
+          - https://artemis-api.hivepro.com/health/test
+      relabel_configs:
+        - source_labels: [__address__]
+          target_label: __param_target
+        - source_labels: [__param_target]
+          target_label: instance
+        - target_label: __address__
+          replacement: localhost:9115
+        - source_labels: [__meta_ec2_tag_client]
+          target_label: client
+          replacement: "xposure"
+        - source_labels: [__meta_ec2_tag_environment]
+          target_label: environment
+          replacement: "prod"
+
+    - job_name: 'xposure-admin-api'
+      scrape_interval: 1m
+      metrics_path: /probe
+      params:
+        module: [http_2xx_to_403]
+      follow_redirects: true
+      static_configs:
+        - targets:
+          - https://www.hivepro.com/wp-admin/
+      relabel_configs:
+        - source_labels: [__address__]
+          target_label: __param_target
+        - source_labels: [__param_target]
+          target_label: instance
+        - target_label: __address__
+          replacement: localhost:9115
+        - source_labels: [__meta_ec2_tag_client]
+          target_label: client
+          replacement: "xposure"
+        - source_labels: [__meta_ec2_tag_environment]
+          target_label: environment
+          replacement: "prod"
