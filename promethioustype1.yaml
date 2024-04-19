@@ -2,17 +2,7 @@
     scrape_interval: 15s
 
   rule_files:
-    - HiveproKubeStateAlertsDev.yml
-    - HiveproKubeStateAlertsProd.yml
-    - HiveproNodeExporterAlertsDev.yml
-    - XposureNodeExporterAlertsDev.yml
-    - HiveproNodeExporterAlertsProd.yml
-    - XposureNodeExporterAlertsProd.yml
-    - HiveproBlackboxAlertsDev.yml
-    - HiveproBlackboxAlertsProd.yml
-    - XposureBlackboxAlertsDev.yml
-    - NLB_uni5.yml
-    - XposureBlackboxAlertsProd.yml
+    - KubeStateAlertsDev.yml
 
   alerting:
     alertmanagers:
@@ -23,7 +13,7 @@
     - job_name: 'node-exporter-hivecloud-prod'
       ec2_sd_configs:
         - region: us-east-1
-          role_arn: arn:aws:iam::934743933529:role/prometheus
+          role_arn: arn:aws:iam::9347454545439:role/prometheus
           port: 9100
           filters:
             - name: tag:node-exporter
@@ -34,7 +24,7 @@
                 - prod
             - name: tag:project
               values:
-                - hivepro
+                - wipro
       relabel_configs:
         - source_labels: [__meta_ec2_tag_Name]
           target_label: instance
@@ -45,7 +35,7 @@
       ec2_sd_configs:
         - region: us-east-1
           port: 9100
-          role_arn: arn:aws:iam::934743933529:role/prometheus
+          role_arn: arn:aws:iam::9347439545433529:role/prometheus
           filters:
             - name: tag:node-exporter
               values:
@@ -55,18 +45,18 @@
                 - dev
             - name: tag:project
               values:
-                - hivepro
+                - hiv
       relabel_configs:
         - source_labels: [__meta_ec2_tag_Name]
           target_label: instance
         - regex: "__meta_ec2_tag_(.+)"
           action: labelmap
 
-    - job_name: 'node-exporter-Xposure-dev'
+    - job_name: 'node-exporter-Xpos-dev'
       ec2_sd_configs:
         - region: us-west-2
           port: 9100
-          role_arn: arn:aws:iam::098915869641:role/prometheus
+          role_arn: arn:aws:iam::0989158454569641:role/prometheus
           filters:
             - name: tag:node-exporter
               values:
@@ -76,18 +66,18 @@
                 - dev
             - name: tag:client
               values:
-                - xposure
+                - wipro
       relabel_configs:
         - source_labels: [__meta_ec2_tag_Name]
           target_label: instance
         - regex: "__meta_ec2_tag_(.+)"
           action: labelmap
 
-    - job_name: 'node-exporter-Xposure-prod'
+    - job_name: 'node-exporter-wipro-prod'
       ec2_sd_configs:
         - region: us-west-2
           port: 9100
-          role_arn: arn:aws:iam::098915869641:role/prometheus
+          role_arn: arn:aws:iam::4544554545:role/prometheus
           filters:
             - name: tag:node-exporter
               values:
@@ -97,7 +87,7 @@
                 - prod
             - name: tag:client
               values:
-                - xposure
+                - wipro
       relabel_configs:
         - source_labels: [__meta_ec2_tag_Name]
           target_label: instance
@@ -115,7 +105,7 @@
           target_label: environment
         - source_labels: [__meta_ec2_tag_client]
           target_label: client
-          replacement: "hivepro"
+          replacement: "hro"
 
     - job_name: 'node_exporter-centralised-monitoring-server'
       scrape_interval: 15s
@@ -128,7 +118,7 @@
           target_label: environment
         - source_labels: [__meta_ec2_tag_client]
           target_label: client
-          replacement: "hivepro"
+          replacement: "wipro"
 
     - job_name: 'alertmanager-centralised-monitoring-server'
       static_configs:
@@ -140,7 +130,7 @@
           target_label: environment
         - source_labels: [__meta_ec2_tag_client]
           target_label: client
-          replacement: "hivepro"
+          replacement: "wipro"
 
 
     - job_name: 'Prometheus-DIR-Monitoring'
@@ -160,7 +150,7 @@
         module: [http_2xx_auth]
       static_configs:
         - targets:
-            - https://apicloud.hivepro.com/actuator/health
+            - https://a/health
       relabel_configs:
         - source_labels: [__address__]
           target_label: __param_target
@@ -173,7 +163,7 @@
           replacement: "prod"
         - source_labels: [__meta_ec2_tag_client]
           target_label: client
-          replacement: "hivepro"
+          replacement: "wepro"
         - source_labels: [__meta_ec2_tag_environment]
           target_label: environment
           replacement: "prod"
@@ -184,7 +174,7 @@
         module: [http_2xx_us1]
       static_configs:
         - targets:
-            - https://us1.hivepro.cloud/actuator/health
+            - https://uadasdasdasd.com
       relabel_configs:
         - source_labels: [__address__]
           target_label: __param_target
@@ -197,7 +187,7 @@
           replacement: "prod"
         - source_labels: [__meta_ec2_tag_client]
           target_label: client
-          replacement: "hivepro"
+          replacement: "wipro"
         - source_labels: [__meta_ec2_tag_environment]
           target_label: environment
           replacement: "prod"
@@ -220,7 +210,7 @@
           replacement: "dev"
         - source_labels: [__meta_ec2_tag_client]
           target_label: client
-          replacement: "hivepro"
+          replacement: "wipro"
         - source_labels: [__meta_ec2_tag_environment]
           target_label: environment
           replacement: "dev"
@@ -231,8 +221,8 @@
         module: [http_2xx_auth]
       static_configs:
         - targets:
-            - https://hivecloud-api-staging1.dev.hivepro.com/actuator/health
-            - https://hivecloud-api-dev1.dev.hivepro.com/actuator/health
+            - https://hhealth.com
+            - https://health2.com
       relabel_configs:
         - source_labels: [__address__]
           target_label: __param_target
@@ -245,7 +235,7 @@
           replacement: "dev"
         - source_labels: [__meta_ec2_tag_client]
           target_label: client
-          replacement: "hivepro"
+          replacement: "wipro"
         - source_labels: [__meta_ec2_tag_environment]
           target_label: environment
           replacement: "dev"
@@ -264,7 +254,7 @@
           target_label: instance
         - source_labels: [__meta_ec2_tag_client]
           target_label: client
-          replacement: "hivepro"
+          replacement: "wipro"
         - source_labels: [__meta_ec2_tag_environment]
           target_label: environment
           replacement: "prod"
@@ -293,19 +283,19 @@
       enable_http2: true
       static_configs:
         - targets:
-            - prometheus.k8s-1-int.dev.hivepro.com
+            - prometheus.k8s-1-int.dev.pro.com
           labels:
-            cluster: uni5saasstage1
+            cluster: unstage1
             environment: dev
-            client: "hivepro"
+            client: "pro"
         - targets:
-            - prometheus.us1-int.hivepro.cloud
+            - prometheus.us1-int.pro.cloud
           labels:
             cluster: uni5saasus1
             environment: prod
-            client: "hivepro"
+            client: "pro"
 
-    - job_name: 'xposure-website'
+    - job_name: 'xposite'
       scrape_interval: 1m
       metrics_path: /probe
       params:
@@ -313,7 +303,7 @@
       follow_redirects: true
       static_configs:
         - targets:
-          - https://artemis.hivepro.com
+          - https://pro.com
       relabel_configs:
         - source_labels: [__address__]
           target_label: __param_target
@@ -323,12 +313,12 @@
           replacement: localhost:9115
         - source_labels: [__meta_ec2_tag_client]
           target_label: client
-          replacement: "xposure"
+          replacement: "wipro"
         - source_labels: [__meta_ec2_tag_environment]
           target_label: environment
           replacement: "prod"
 
-    - job_name: 'xposure-api'
+    - job_name: 'x-api'
       scrape_interval: 1m
       metrics_path: /probe
       params:
@@ -336,7 +326,7 @@
       follow_redirects: true
       static_configs:
         - targets:
-          - https://artemis-api.hivepro.com/pentest/v1/org-wpt/get
+          - https://dfsdfsdfsdfsdfsdf.com
       relabel_configs:
         - source_labels: [__address__]
           target_label: __param_target
@@ -346,12 +336,12 @@
           replacement: localhost:9115
         - source_labels: [__meta_ec2_tag_client]
           target_label: client
-          replacement: "xposure"
+          replacement: "wipro"
         - source_labels: [__meta_ec2_tag_environment]
           target_label: environment
           replacement: "prod"
 
-    - job_name: 'xposure-test-api'
+    - job_name: 'wipro-test-api'
       scrape_interval: 1m
       metrics_path: /probe
       params:
@@ -359,7 +349,7 @@
       follow_redirects: true
       static_configs:
         - targets:
-          - https://artemis-api.hivepro.com/health/test
+          - https://arttest.com
       relabel_configs:
         - source_labels: [__address__]
           target_label: __param_target
@@ -369,12 +359,12 @@
           replacement: localhost:9115
         - source_labels: [__meta_ec2_tag_client]
           target_label: client
-          replacement: "xposure"
+          replacement: "xure"
         - source_labels: [__meta_ec2_tag_environment]
           target_label: environment
           replacement: "prod"
 
-    - job_name: 'xposure-admin-api'
+    - job_name: 'xre-admin-api'
       scrape_interval: 1m
       metrics_path: /probe
       params:
@@ -382,7 +372,7 @@
       follow_redirects: true
       static_configs:
         - targets:
-          - https://www.hivepro.com/wp-admin/
+          - https://www.pro.com
       relabel_configs:
         - source_labels: [__address__]
           target_label: __param_target
@@ -392,7 +382,7 @@
           replacement: localhost:9115
         - source_labels: [__meta_ec2_tag_client]
           target_label: client
-          replacement: "xposure"
+          replacement: "xre"
         - source_labels: [__meta_ec2_tag_environment]
           target_label: environment
           replacement: "prod"
