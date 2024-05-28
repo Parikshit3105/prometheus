@@ -1,0 +1,529 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 13,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "fdg98z5j0d3pcc"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "green",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 3,
+        "x": 0,
+        "y": 0
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [
+            {
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto"
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "fdg98z5j0d3pcc"
+          },
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "AwsAccountId:$Account AND ControlId_duplicate:$Services AND ComplianceStatus:PASSED AND SeverityLabel:$Severity",
+          "refId": "A",
+          "timeField": "@timestamp"
+        }
+      ],
+      "timeFrom": "25h",
+      "title": "PASSED",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "fdg98z5j0d3pcc"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "light-orange",
+            "mode": "fixed"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 3,
+        "x": 3,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [
+            {
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto"
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "fdg98z5j0d3pcc"
+          },
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "AwsAccountId:$Account AND ControlId_duplicate:$Services AND ComplianceStatus:FAILED AND SeverityLabel:$Severity",
+          "refId": "A",
+          "timeField": "@timestamp"
+        }
+      ],
+      "timeFrom": "25h",
+      "title": "FAILED",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "fdg98z5j0d3pcc"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 18,
+        "x": 6,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [
+            {
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto"
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "fdg98z5j0d3pcc"
+          },
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "AwsAccountId:$Account AND ControlId_duplicate:$Services AND ComplianceStatus:$Status AND SeverityLabel:$Severity AND ComplianceStatus:$Status",
+          "refId": "A",
+          "timeField": "@timestamp"
+        }
+      ],
+      "title": "Timeline",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "fdg98z5j0d3pcc"
+      },
+      "gridPos": {
+        "h": 14,
+        "w": 24,
+        "x": 0,
+        "y": 6
+      },
+      "id": 2,
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": false,
+        "sortOrder": "Descending",
+        "wrapLogMessage": false
+      },
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [],
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "fdg98z5j0d3pcc"
+          },
+          "metrics": [
+            {
+              "id": "1",
+              "settings": {
+                "size": "10000"
+              },
+              "type": "raw_data"
+            }
+          ],
+          "query": "AwsAccountId:$Account AND ControlId_duplicate:$Services AND ComplianceStatus:$Status AND SeverityLabel:$Severity AND ComplianceStatus:$Status",
+          "refId": "A",
+          "timeField": "@timestamp"
+        }
+      ],
+      "title": "Findings",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "@version": true,
+              "CompanyName": true,
+              "ControlId_duplicate": true,
+              "_id": true,
+              "_index": true,
+              "_source": true,
+              "_type": true,
+              "highlight": true,
+              "id": true,
+              "message": true,
+              "sort": true,
+              "tags": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "@timestamp": 4,
+              "@version": 5,
+              "Annotation": 1,
+              "AwsAccountId": 6,
+              "CompanyName": 7,
+              "ComplianceStatus": 8,
+              "ControlId": 9,
+              "CreatedAt": 10,
+              "Description": 3,
+              "FindingId": 11,
+              "FirstObservedAt": 12,
+              "GeneratorId": 13,
+              "Id": 14,
+              "LastObservedAt": 15,
+              "NormalizedSeverity": 16,
+              "ProductArn": 17,
+              "ProductName": 18,
+              "ProductSeverity": 19,
+              "RecommendationUrl": 20,
+              "RecordState": 21,
+              "Resources": 2,
+              "SeverityLabel": 22,
+              "StandardsArn": 23,
+              "StandardsControlArn": 24,
+              "StandardsSubscriptionArn": 25,
+              "Title": 0,
+              "Types": 26,
+              "UpdateVersion": 27,
+              "UpdatedAt": 28,
+              "Workflow": 29,
+              "WorkflowState": 30,
+              "_id": 31,
+              "_index": 32,
+              "_source": 33,
+              "_type": 34,
+              "highlight": 35,
+              "id": 36,
+              "message": 37,
+              "sort": 38,
+              "tags": 39
+            },
+            "renameByName": {}
+          }
+        }
+      ],
+      "type": "logs"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "elasticsearch",
+          "uid": "fdg98z5j0d3pcc"
+        },
+        "definition": "{\"find\": \"terms\", \"field\": \"AwsAccountId.keyword\"}",
+        "hide": 0,
+        "includeAll": true,
+        "multi": true,
+        "name": "Account",
+        "options": [],
+        "query": "{\"find\": \"terms\", \"field\": \"AwsAccountId.keyword\"}",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "elasticsearch",
+          "uid": "fdg98z5j0d3pcc"
+        },
+        "definition": "{\"find\": \"terms\", \"field\": \"ControlId_duplicate.keyword\", \"query\": \"AwsAccountId:$Account\"}",
+        "hide": 0,
+        "includeAll": true,
+        "multi": true,
+        "name": "Services",
+        "options": [],
+        "query": "{\"find\": \"terms\", \"field\": \"ControlId_duplicate.keyword\", \"query\": \"AwsAccountId:$Account\"}",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "elasticsearch",
+          "uid": "fdg98z5j0d3pcc"
+        },
+        "definition": "{\"find\": \"terms\", \"field\": \"ComplianceStatus.keyword\", \"query\": \"ControlId_duplicate:$Services\"}",
+        "hide": 0,
+        "includeAll": true,
+        "multi": true,
+        "name": "Status",
+        "options": [],
+        "query": "{\"find\": \"terms\", \"field\": \"ComplianceStatus.keyword\", \"query\": \"ControlId_duplicate:$Services\"}",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "elasticsearch",
+          "uid": "fdg98z5j0d3pcc"
+        },
+        "definition": "{\"find\": \"terms\", \"field\": \"SeverityLabel.keyword\",  \"query\": \"ComplianceStatus:$Status\"}",
+        "hide": 0,
+        "includeAll": true,
+        "multi": true,
+        "name": "Severity",
+        "options": [],
+        "query": "{\"find\": \"terms\", \"field\": \"SeverityLabel.keyword\",  \"query\": \"ComplianceStatus:$Status\"}",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-30m",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Security Hub",
+  "uid": "fdiutjd2zah34d",
+  "version": 2,
+  "weekStart": ""
+}
