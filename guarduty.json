@@ -1,0 +1,563 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "Simple Elasticsearch logging interface, only need to bind an instance of Elasticsearch and start enjoying your logs :)",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "gnetId": 17361,
+  "graphTooltip": 0,
+  "id": 2,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "fdg98z5j0d3pcc"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 3,
+        "x": 0,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [
+            {
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto"
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "fdg98z5j0d3pcc"
+          },
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "Guard-duty.accountId:$account AND Guard-duty.type:$type",
+          "refId": "A",
+          "timeField": "@timestamp"
+        }
+      ],
+      "timeFrom": "7d",
+      "title": "Finding Count",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "fdg98z5j0d3pcc"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 21,
+        "x": 3,
+        "y": 0
+      },
+      "id": 6,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [
+            {
+              "field": "@timestamp",
+              "id": "2",
+              "settings": {
+                "interval": "auto"
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "fdg98z5j0d3pcc"
+          },
+          "metrics": [
+            {
+              "id": "1",
+              "type": "count"
+            }
+          ],
+          "query": "Guard-duty.accountId:$account AND Guard-duty.type:$type",
+          "refId": "A",
+          "timeField": "@timestamp"
+        }
+      ],
+      "title": "Panel Title",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "elasticsearch",
+        "uid": "fdg98z5j0d3pcc"
+      },
+      "description": "",
+      "gridPos": {
+        "h": 15,
+        "w": 24,
+        "x": 0,
+        "y": 6
+      },
+      "id": 2,
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": true,
+        "sortOrder": "Descending",
+        "wrapLogMessage": false
+      },
+      "pluginVersion": "10.4.0",
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [],
+          "datasource": {
+            "type": "elasticsearch",
+            "uid": "fdg98z5j0d3pcc"
+          },
+          "metrics": [
+            {
+              "id": "1",
+              "settings": {
+                "size": "500"
+              },
+              "type": "raw_data"
+            }
+          ],
+          "query": "Guard-duty.accountId:$account AND Guard-duty.type:$type",
+          "refId": "A",
+          "timeField": "@timestamp"
+        }
+      ],
+      "title": "Logging",
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "@version": true,
+              "ControlId_duplicate": true,
+              "Guard-duty.partition": true,
+              "Guard-duty.region": false,
+              "Guard-duty.resource.instanceDetails.availabilityZone": true,
+              "Guard-duty.resource.instanceDetails.instanceId": false,
+              "Guard-duty.resource.instanceDetails.instanceType": false,
+              "_id": true,
+              "_index": true,
+              "_source": true,
+              "_type": true,
+              "arn": true,
+              "createdAt": true,
+              "description": false,
+              "highlight": true,
+              "host_name": true,
+              "id": true,
+              "log_level": true,
+              "log_message": true,
+              "message": true,
+              "partition": true,
+              "region": false,
+              "resource.instanceDetails.availabilityZone": true,
+              "resource.instanceDetails.iamInstanceProfile.arn": true,
+              "resource.instanceDetails.iamInstanceProfile.id": true,
+              "resource.instanceDetails.imageDescription": true,
+              "resource.instanceDetails.imageId": true,
+              "resource.instanceDetails.instanceState": true,
+              "resource.instanceDetails.instanceType": true,
+              "resource.instanceDetails.launchTime": true,
+              "resource.instanceDetails.networkInterfaces": true,
+              "resource.instanceDetails.outpostArn": true,
+              "resource.instanceDetails.platform": true,
+              "resource.instanceDetails.productCodes": true,
+              "resource.instanceDetails.tags": true,
+              "resource.resourceType": true,
+              "schemaVersion": true,
+              "service.action.actionType": true,
+              "service.action.portProbeAction.blocked": true,
+              "service.additionalInfo.threatListName": true,
+              "service.additionalInfo.type": true,
+              "service.additionalInfo.value": true,
+              "service.archived": true,
+              "service.detectorId": true,
+              "service.eventFirstSeen": true,
+              "service.eventLastSeen": true,
+              "service.evidence.threatIntelligenceDetails": true,
+              "service.resourceRole": true,
+              "service.serviceName": false,
+              "sort": true,
+              "updatedAt": true
+            },
+            "includeByName": {},
+            "indexByName": {
+              "@timestamp": 7,
+              "@version": 1,
+              "ControlId_duplicate": 9,
+              "Guard-duty.accountId": 10,
+              "Guard-duty.arn": 11,
+              "Guard-duty.createdAt": 12,
+              "Guard-duty.description": 14,
+              "Guard-duty.id": 16,
+              "Guard-duty.partition": 17,
+              "Guard-duty.region": 18,
+              "Guard-duty.resource.accessKeyDetails.accessKeyId": 51,
+              "Guard-duty.resource.accessKeyDetails.principalId": 52,
+              "Guard-duty.resource.accessKeyDetails.userName": 53,
+              "Guard-duty.resource.accessKeyDetails.userType": 54,
+              "Guard-duty.resource.eksClusterDetails.arn": 55,
+              "Guard-duty.resource.eksClusterDetails.createdAt": 56,
+              "Guard-duty.resource.eksClusterDetails.name": 57,
+              "Guard-duty.resource.eksClusterDetails.status": 58,
+              "Guard-duty.resource.eksClusterDetails.tags": 59,
+              "Guard-duty.resource.eksClusterDetails.vpcId": 60,
+              "Guard-duty.resource.instanceDetails.availabilityZone": 19,
+              "Guard-duty.resource.instanceDetails.iamInstanceProfile.arn": 20,
+              "Guard-duty.resource.instanceDetails.iamInstanceProfile.id": 21,
+              "Guard-duty.resource.instanceDetails.imageDescription": 15,
+              "Guard-duty.resource.instanceDetails.imageId": 22,
+              "Guard-duty.resource.instanceDetails.instanceId": 13,
+              "Guard-duty.resource.instanceDetails.instanceState": 23,
+              "Guard-duty.resource.instanceDetails.instanceType": 24,
+              "Guard-duty.resource.instanceDetails.launchTime": 25,
+              "Guard-duty.resource.instanceDetails.networkInterfaces": 26,
+              "Guard-duty.resource.instanceDetails.outpostArn": 27,
+              "Guard-duty.resource.instanceDetails.platform": 28,
+              "Guard-duty.resource.instanceDetails.productCodes": 29,
+              "Guard-duty.resource.instanceDetails.tags": 30,
+              "Guard-duty.resource.kubernetesDetails.kubernetesUserDetails.groups": 61,
+              "Guard-duty.resource.kubernetesDetails.kubernetesUserDetails.impersonatedUser.groups": 62,
+              "Guard-duty.resource.kubernetesDetails.kubernetesUserDetails.impersonatedUser.username": 63,
+              "Guard-duty.resource.kubernetesDetails.kubernetesUserDetails.sessionName": 64,
+              "Guard-duty.resource.kubernetesDetails.kubernetesUserDetails.uid": 65,
+              "Guard-duty.resource.kubernetesDetails.kubernetesUserDetails.username": 66,
+              "Guard-duty.resource.kubernetesDetails.kubernetesWorkloadDetails": 67,
+              "Guard-duty.resource.resourceType": 31,
+              "Guard-duty.schemaVersion": 32,
+              "Guard-duty.service.action.actionType": 33,
+              "Guard-duty.service.action.kubernetesApiCallAction.namespace": 68,
+              "Guard-duty.service.action.kubernetesApiCallAction.remoteIpDetails.city.cityName": 69,
+              "Guard-duty.service.action.kubernetesApiCallAction.remoteIpDetails.country.countryName": 70,
+              "Guard-duty.service.action.kubernetesApiCallAction.remoteIpDetails.geoLocation.lat": 71,
+              "Guard-duty.service.action.kubernetesApiCallAction.remoteIpDetails.geoLocation.lon": 72,
+              "Guard-duty.service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV4": 73,
+              "Guard-duty.service.action.kubernetesApiCallAction.remoteIpDetails.organization.asn": 74,
+              "Guard-duty.service.action.kubernetesApiCallAction.remoteIpDetails.organization.asnOrg": 75,
+              "Guard-duty.service.action.kubernetesApiCallAction.remoteIpDetails.organization.isp": 76,
+              "Guard-duty.service.action.kubernetesApiCallAction.remoteIpDetails.organization.org": 77,
+              "Guard-duty.service.action.kubernetesApiCallAction.requestUri": 78,
+              "Guard-duty.service.action.kubernetesApiCallAction.resource": 79,
+              "Guard-duty.service.action.kubernetesApiCallAction.sourceIPs": 80,
+              "Guard-duty.service.action.kubernetesApiCallAction.statusCode": 81,
+              "Guard-duty.service.action.kubernetesApiCallAction.subresource": 82,
+              "Guard-duty.service.action.kubernetesApiCallAction.userAgent": 83,
+              "Guard-duty.service.action.kubernetesApiCallAction.verb": 84,
+              "Guard-duty.service.action.portProbeAction.blocked": 34,
+              "Guard-duty.service.action.portProbeAction.portProbeDetails": 35,
+              "Guard-duty.service.additionalInfo.threatListName": 36,
+              "Guard-duty.service.additionalInfo.type": 37,
+              "Guard-duty.service.additionalInfo.value": 38,
+              "Guard-duty.service.archived": 39,
+              "Guard-duty.service.count": 40,
+              "Guard-duty.service.detection.anomaly.profiles.account.api": 85,
+              "Guard-duty.service.detection.anomaly.profiles.account.asnInfo": 86,
+              "Guard-duty.service.detection.anomaly.profiles.account.dayOfWeek": 87,
+              "Guard-duty.service.detection.anomaly.profiles.account.impersonatedUsername": 88,
+              "Guard-duty.service.detection.anomaly.profiles.account.namespace": 89,
+              "Guard-duty.service.detection.anomaly.profiles.account.permission": 90,
+              "Guard-duty.service.detection.anomaly.profiles.account.userAgent": 91,
+              "Guard-duty.service.detection.anomaly.profiles.account.username": 92,
+              "Guard-duty.service.detection.anomaly.profiles.cluster.api": 93,
+              "Guard-duty.service.detection.anomaly.profiles.cluster.asnInfo": 94,
+              "Guard-duty.service.detection.anomaly.profiles.cluster.dayOfWeek": 95,
+              "Guard-duty.service.detection.anomaly.profiles.cluster.impersonatedUsername": 96,
+              "Guard-duty.service.detection.anomaly.profiles.cluster.namespace": 97,
+              "Guard-duty.service.detection.anomaly.profiles.cluster.permission": 98,
+              "Guard-duty.service.detection.anomaly.profiles.cluster.userAgent": 99,
+              "Guard-duty.service.detection.anomaly.profiles.cluster.username": 100,
+              "Guard-duty.service.detection.anomaly.profiles.namespace.api": 101,
+              "Guard-duty.service.detection.anomaly.profiles.namespace.asnInfo": 102,
+              "Guard-duty.service.detection.anomaly.profiles.namespace.dayOfWeek": 103,
+              "Guard-duty.service.detection.anomaly.profiles.namespace.impersonatedUsername": 104,
+              "Guard-duty.service.detection.anomaly.profiles.namespace.permission": 105,
+              "Guard-duty.service.detection.anomaly.profiles.namespace.userAgent": 106,
+              "Guard-duty.service.detection.anomaly.profiles.namespace.username": 107,
+              "Guard-duty.service.detection.anomaly.profiles.username.api": 108,
+              "Guard-duty.service.detection.anomaly.profiles.username.asnInfo": 109,
+              "Guard-duty.service.detection.anomaly.profiles.username.dayOfWeek": 110,
+              "Guard-duty.service.detection.anomaly.profiles.username.impersonatedUsername": 111,
+              "Guard-duty.service.detection.anomaly.profiles.username.namespace": 112,
+              "Guard-duty.service.detection.anomaly.profiles.username.permission": 113,
+              "Guard-duty.service.detection.anomaly.profiles.username.userAgent": 114,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.account.impersonatedUsername.observations.text": 115,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.account.impersonatedUsername.profileSubtype": 116,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.account.impersonatedUsername.profileType": 117,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.account.namespace.observations.text": 118,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.account.namespace.profileSubtype": 119,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.account.namespace.profileType": 120,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.account.userAgent.observations.text": 121,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.account.userAgent.profileSubtype": 122,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.account.userAgent.profileType": 123,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.cluster.asnInfo.observations.text": 124,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.cluster.asnInfo.profileSubtype": 125,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.cluster.asnInfo.profileType": 126,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.cluster.impersonatedUsername.observations.text": 127,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.cluster.impersonatedUsername.profileSubtype": 128,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.cluster.impersonatedUsername.profileType": 129,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.cluster.namespace.observations.text": 130,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.cluster.namespace.profileSubtype": 131,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.cluster.namespace.profileType": 132,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.cluster.userAgent.observations.text": 133,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.cluster.userAgent.profileSubtype": 134,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.cluster.userAgent.profileType": 135,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.namespace.asnInfo.observations.text": 136,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.namespace.asnInfo.profileSubtype": 137,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.namespace.asnInfo.profileType": 138,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.namespace.impersonatedUsername.observations.text": 139,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.namespace.impersonatedUsername.profileSubtype": 140,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.namespace.impersonatedUsername.profileType": 141,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.username.asnInfo.observations.text": 142,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.username.asnInfo.profileSubtype": 143,
+              "Guard-duty.service.detection.anomaly.unusual.behavior.username.asnInfo.profileType": 144,
+              "Guard-duty.service.detectorId": 41,
+              "Guard-duty.service.eventFirstSeen": 42,
+              "Guard-duty.service.eventLastSeen": 43,
+              "Guard-duty.service.evidence.threatIntelligenceDetails": 44,
+              "Guard-duty.service.resourceRole": 45,
+              "Guard-duty.service.serviceName": 46,
+              "Guard-duty.severity": 47,
+              "Guard-duty.title": 48,
+              "Guard-duty.type": 0,
+              "Guard-duty.updatedAt": 49,
+              "_id": 2,
+              "_index": 3,
+              "_type": 4,
+              "highlight": 5,
+              "message": 8,
+              "sort": 6,
+              "tags": 50
+            },
+            "renameByName": {
+              "parsed_data.resource.instanceDetails.instanceId": "instance Details",
+              "parsed_data.resource.instanceDetails.tags": "InstanceDetails",
+              "parsed_data.service.action.portProbeAction.portProbeDetails": "Port Probe Details",
+              "parsed_data.type": "Finding Name",
+              "resource.instanceDetails.iamInstanceProfile.arn": "iamInstanceProfile"
+            }
+          }
+        }
+      ],
+      "type": "logs"
+    }
+  ],
+  "refresh": "5s",
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "elasticsearch",
+          "uid": "fdg98z5j0d3pcc"
+        },
+        "definition": "{\"find\": \"terms\", \"field\": \"Guard-duty.accountId.keyword\"}",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Account",
+        "multi": true,
+        "name": "account",
+        "options": [],
+        "query": "{\"find\": \"terms\", \"field\": \"Guard-duty.accountId.keyword\"}",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "elasticsearch",
+          "uid": "fdg98z5j0d3pcc"
+        },
+        "definition": "{\"find\": \"terms\", \"field\": \"Guard-duty.type.keyword\", \"query\": \"Guard-duty.accountId:$account\"}",
+        "hide": 0,
+        "includeAll": true,
+        "label": "Finding Type",
+        "multi": true,
+        "name": "type",
+        "options": [],
+        "query": "{\"find\": \"terms\", \"field\": \"Guard-duty.type.keyword\", \"query\": \"Guard-duty.accountId:$account\"}",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Guard Duty",
+  "uid": "edgpot9pee7lsb",
+  "version": 21,
+  "weekStart": ""
+}
