@@ -1,0 +1,72 @@
+global:
+  scrape_interval: 15s
+rule_files:
+  - ec2-alert.yml
+    # - testing.yml
+  - Blackbox-alert.yml
+  - apache-alerts.yml
+  - ELG.yml
+alerting:
+  alertmanagers:
+  - static_configs:
+    - targets:
+      - localhost:9093
+scrape_configs:
+  - job_name: 'prometheus'
+    scrape_interval: 15s
+    static_configs:
+      - targets: ['localhost:9090']
+  - job_name: 'alertmanager'
+    static_configs:
+      - targets: ['localhost:9093']
+
+  - job_name: 'NodeExporter'
+    static_configs:
+      - targets: ['localhost:9100']
+
+  - job_name: 'ApacheExporter'
+    static_configs:
+      - targets: ['localhost:9117']
+  - job_name: 'Elasticsearch-Exporter'
+    static_configs:
+      - targets: ['localhost:9114']
+
+  - job_name: 'monitoring-api'
+    metrics_path: /probe
+    params:
+      module: [http_2xx, http_2xx_auth]
+    static_configs:
+      - targets:
+        - https://xrdgfgdfgdd.com/987ZkV2inxuw/login.php
+
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: localhost:9115
+  - job_name: 'Monitoring-server'
+    ec2_sd_configs:
+    - region: ap-south-1
+      role_arn: arn:aws:iam::45453492661:role/Monitoring-Role
+      port: 9100
+    relabel_configs:
+    - source_labels: [__meta_ec2_tag_PrometheusEnabled]
+      regex: True
+      action: keep
+    - source_labels: [__meta_ec2_tag_Name,__meta_ec2_private_ip]
+      target_label: instance
+
+
+  - job_name: 'Monitoring-Apache'
+    ec2_sd_configs:
+    - region: ap-south-1
+      role_arn: arn:aws:iam::450434534534:role/Monitoring-Role
+      port: 9117
+    relabel_configs:
+    - source_labels: [__meta_ec2_tag_ApachePrometheusEnabled]
+      regex: True
+      action: keep
+    - source_labels: [__meta_ec2_tag_Name,__meta_ec2_private_ip]
+      target_label: instance
